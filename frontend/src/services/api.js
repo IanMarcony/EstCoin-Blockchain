@@ -36,6 +36,15 @@ axios.interceptors.response.use(
 export const registerUser = async (userData) => {
     try {
         const response = await axios.post(`${API_URL}/auth/register`, userData);
+        
+        // Armazena o token e dados do usuário após registro
+        if (response.data.token && response.data.user) {
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            localStorage.setItem('username', response.data.user.username);
+            localStorage.setItem('ethereum_address', response.data.user.ethereum_address);
+        }
+        
         return response.data;
     } catch (error) {
         throw error.response?.data || { error: 'Erro ao registrar usuário' };
@@ -48,9 +57,11 @@ export const loginUser = async (credentials) => {
         const response = await axios.post(`${API_URL}/auth/login`, credentials);
         
         // Armazena o token e dados do usuário
-        if (response.data.token) {
+        if (response.data.token && response.data.user) {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('user', JSON.stringify(response.data.user));
+            localStorage.setItem('username', response.data.user.username);
+            localStorage.setItem('ethereum_address', response.data.user.ethereum_address);
         }
         
         return response.data;
@@ -63,6 +74,8 @@ export const loginUser = async (credentials) => {
 export const logoutUser = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('username');
+    localStorage.removeItem('ethereum_address');
 };
 
 // Verifica se o usuário está autenticado
@@ -74,6 +87,16 @@ export const isAuthenticated = () => {
 export const getCurrentUser = () => {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
+};
+
+// Obtém o username do usuário logado
+export const getUsername = () => {
+    return localStorage.getItem('username');
+};
+
+// Obtém o endereço Ethereum do usuário logado
+export const getEthereumAddress = () => {
+    return localStorage.getItem('ethereum_address');
 };
 
 // ============ TRANSAÇÕES ============

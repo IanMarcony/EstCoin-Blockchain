@@ -16,7 +16,16 @@ const Login = () => {
         setLoading(true);
 
         try {
+            // loginUser já salva automaticamente: token, user, username, ethereum_address
             const response = await loginUser({ username, password });
+            
+            console.log('✅ Login response:', response);
+            console.log('✅ Dados salvos no localStorage:', {
+                token: localStorage.getItem('token'),
+                user: localStorage.getItem('user'),
+                username: localStorage.getItem('username'),
+                ethereum_address: localStorage.getItem('ethereum_address')
+            });
             
             // Login bem-sucedido
             toast.success(`Bem-vindo, ${response.user?.username || username}!`);
