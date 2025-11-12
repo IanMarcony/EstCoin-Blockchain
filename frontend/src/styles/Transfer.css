@@ -1,0 +1,192 @@
+/* Transfer Component Styles */
+
+.transfer-container {
+    margin-top: 24px;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.transfer-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 2px solid #667eea;
+}
+
+.transfer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #f0f2f5;
+}
+
+.transfer-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 20px;
+}
+
+.btn-close {
+    background: #f8f9fa;
+    border: none;
+    color: #999;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-close:hover {
+    background: #e74c3c;
+    color: white;
+    transform: rotate(90deg);
+}
+
+/* Form Styles */
+.transfer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.transfer-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.transfer-form label {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.transfer-form input {
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.transfer-form input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.transfer-form input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+.transfer-form input.error {
+    border-color: #e74c3c;
+}
+
+.hint {
+    font-size: 12px;
+    color: #999;
+    font-style: italic;
+}
+
+/* Actions */
+.transfer-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.transfer-actions button {
+    flex: 1;
+}
+
+.btn-secondary {
+    background: #f8f9fa;
+    color: #333;
+    border: 2px solid #e0e0e0;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #e0e0e0;
+}
+
+.btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Messages */
+.success-message {
+    background-color: #d4edda;
+    border-left: 4px solid #27ae60;
+    color: #155724;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Info Box */
+.transfer-info {
+    margin-top: 24px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+}
+
+.transfer-info h4 {
+    margin: 0 0 12px 0;
+    color: #333;
+    font-size: 14px;
+}
+
+.transfer-info ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #666;
+}
+
+.transfer-info li {
+    font-size: 13px;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    .transfer-actions {
+        flex-direction: column;
+    }
+
+    .transfer-card {
+        padding: 20px 16px;
+    }
+}
