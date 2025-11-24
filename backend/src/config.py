@@ -20,8 +20,22 @@ class Config:
     GAS_LIMIT = 2000000
     GAS_PRICE = 20000000000  # 20 Gwei
     
-    # Token Contract (será definido após deploy)
-    TOKEN_CONTRACT_ADDRESS = os.getenv('TOKEN_CONTRACT_ADDRESS', None)
+    # Token Contract 
+    @staticmethod
+    def get_token_contract_address():
+        """Busca o endereço do contrato do banco de dados"""
+        try:
+            from src.models.user import SystemConfig
+            address = SystemConfig.get_value('TOKEN_CONTRACT_ADDRESS', None)
+            return address
+        except Exception as e:
+            print(f"Erro ao buscar endereço do contrato: {e}")
+            return None
+    
+    # Fallback para compatibilidade com código antigo
+    @property
+    def TOKEN_CONTRACT_ADDRESS(self):
+        return self.get_token_contract_address()
     
     # JWT
     JWT_SECRET_KEY = SECRET_KEY

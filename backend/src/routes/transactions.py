@@ -21,7 +21,8 @@ def transfer(current_user):
     """
     data = request.json
     
-    # O sender agora vem do token autenticado (current_user)
+    # O user_id vem do token autenticado (current_user)
+    user_id = current_user.get('user_id')
     sender = current_user.get('ethereum_address')
     recipient = data.get('recipient')
     amount = data.get('amount')
@@ -45,7 +46,8 @@ def transfer(current_user):
         return jsonify({'error': 'Endereço Ethereum inválido'}), 400
 
     try:
-        transaction = transaction_controller.transfer_funds(sender, recipient, amount)
+        # Passa user_id ao invés de sender_address
+        transaction = transaction_controller.transfer_funds(user_id, recipient, amount)
         return jsonify({
             'message': 'Transferência realizada com sucesso',
             'transaction': transaction,

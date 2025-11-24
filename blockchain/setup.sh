@@ -3,7 +3,8 @@
 # Instala as dependências do Ethereum
 npm install -g truffle
 npm install -g ganache-cli
-
+# yarn global add truffle
+# yarn global add ganache-cli
 # Cria um novo projeto Truffle
 truffle init
 

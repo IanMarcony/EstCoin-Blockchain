@@ -4,6 +4,7 @@ Controller para gerenciar usuários com SQLite
 from src.utils.auth_utils import hash_password, check_password, generate_token
 from src.blockchain.web3_client import create_account
 from src.models.user import User, get_db, SessionLocal
+from src.utils.token_utils import auto_distribute_initial_tokens
 
 class UserController:
     def __init__(self):
@@ -49,6 +50,16 @@ class UserController:
             
             print(f'✅ Usuário criado: {username} - {eth_account["address"]}')
             
+            # Distribui 10 ESTCOIN automaticamente para o novo usuário
+            distribution_result = auto_distribute_initial_tokens(eth_account['address'])
+            
+            if distribution_result:
+                print(f'✅ 10 ESTCOIN distribuídos automaticamente para {username}')
+                actual_balance = distribution_result['amount']
+            else:
+                print(f'⚠️ Tokens não distribuídos automaticamente. Execute distribute_tokens.py manualmente.')
+                actual_balance = 0.0
+            
             # Gera token JWT
             token = generate_token(
                 user_id=new_user.id,
@@ -59,8 +70,9 @@ class UserController:
             return {
                 'username': username,
                 'ethereum_address': eth_account['address'],
-                'balance': 10.0,
-                'token': token
+                'balance': actual_balance,
+                'token': token,
+                'distribution': distribution_result
             }
             
         except Exception as e:

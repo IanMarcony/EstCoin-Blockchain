@@ -41,6 +41,49 @@ class User(Base):
             'balance': self.balance
         }
 
+class SystemConfig(Base):
+    """
+    Modelo para armazenar configurações do sistema
+    """
+    __tablename__ = 'system_config'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    key = Column(String(100), unique=True, nullable=False)
+    value = Column(String(500), nullable=True)
+
+    def __repr__(self):
+        return f"<SystemConfig(key='{self.key}', value='{self.value}')>"
+
+    @staticmethod
+    def get_value(key, default=None):
+        """Busca um valor de configuração"""
+        db = SessionLocal()
+        try:
+            config = db.query(SystemConfig).filter_by(key=key).first()
+            return config.value if config else default
+        finally:
+            db.close()
+
+    @staticmethod
+    def set_value(key, value):
+        """Define um valor de configuração"""
+        db = SessionLocal()
+        try:
+            config = db.query(SystemConfig).filter_by(key=key).first()
+            if config:
+                config.value = value
+            else:
+                config = SystemConfig(key=key, value=value)
+                db.add(config)
+            db.commit()
+            return True
+        except Exception as e:
+            db.rollback()
+            print(f"Erro ao salvar configuração: {e}")
+            return False
+        finally:
+            db.close()
+
 def init_db():
     """Inicializa o banco de dados criando as tabelas"""
     Base.metadata.create_all(bind=engine)

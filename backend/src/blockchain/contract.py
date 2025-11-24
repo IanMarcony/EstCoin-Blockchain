@@ -31,7 +31,10 @@ def load_contract_abi():
 def get_contract():
     """Retorna a instância do contrato Token"""
     try:
-        if not Config.TOKEN_CONTRACT_ADDRESS:
+        # Busca o endereço do contrato do banco de dados
+        contract_address = Config.get_token_contract_address()
+        
+        if not contract_address:
             return None
         
         abi = load_contract_abi()
@@ -39,7 +42,7 @@ def get_contract():
             return None
         
         contract = web3.eth.contract(
-            address=Config.TOKEN_CONTRACT_ADDRESS,
+            address=contract_address,
             abi=abi
         )
         return contract
@@ -110,7 +113,8 @@ def transfer_tokens(from_address, to_address, amount, private_key):
         )
         
         # Envia a transação
-        tx_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
+        # Na web3.py 6.x, o atributo é raw_transaction (com underscore)
+        tx_hash = web3.eth.send_raw_transaction(signed_txn.raw_transaction)
         
         return tx_hash.hex()
     except Exception as e:
